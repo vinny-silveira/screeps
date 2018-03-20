@@ -9,20 +9,6 @@ var parameters = {
     },
 
     /**
-     * Here, contains my spawns with your nick for easy access
-     */
-    mySpawns: {
-        's1': Game.spawns['Home']
-    },
-
-    /**
-     * Here, contains my rooms with your nick for easy access
-     */
-    myRooms: {
-        'r1': Game.rooms['E54N57']
-    },
-
-    /**
      * Chec if key exists and return it
      *
      * @param Array array
@@ -58,7 +44,7 @@ var parameters = {
      * @return {StructureSpawn}
      */
     getSpawn: function(spawn){
-        return this.inArray(this.mySpawns, spawn);
+        return this.inArray(Game.spawns, spawn);
     },
 
     /**
@@ -69,7 +55,7 @@ var parameters = {
      * @return {Room}
      */
     getRoom: function(room){
-        return this.inArray(this.myRooms, room);
+        return this.inArray(Game.rooms, room);
     }
 }
 

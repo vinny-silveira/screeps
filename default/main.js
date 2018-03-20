@@ -1,10 +1,10 @@
+var params              = require('parameters');
+var util                = require('utils');
 var roleHarvester       = require('role.harvester');
 var roleUpgrader        = require('role.upgrader');
 var roleBuilder         = require('role.builder');
 var roleWallRepairer    = require('role.wallRepairer');
 
-var util                = require('utils');
-var params              = require('parameters');
 
 module.exports.loop = function () {
     const OUTPUT_LOGS       = true;
@@ -14,8 +14,8 @@ module.exports.loop = function () {
     let upgraderCount       = 0;
     let wallRepairerCount   = 0;
 
-    let mySpawn             = params.getSpawn('s1');
-    let myRoom              = params.getRoom('r1');
+    let mySpawn             = params.getSpawn('Home');
+    let myRoom              = params.getRoom('E54N57');
     let roomEnergy          = myRoom.energyAvailable.toFixed(2);
     let roomEnergyMax       = myRoom.energyCapacityAvailable.toFixed(2);
 

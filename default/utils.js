@@ -1,6 +1,6 @@
 var utils = {
 
-    /**
+	/**
 	 * Clears the memory of dead creeps
 	 *
 	 * @param boolean outPut
