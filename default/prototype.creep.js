@@ -95,6 +95,21 @@ var prototypeCreep = {
 		if (creep.repair(structure) == ERR_NOT_IN_RANGE) {
 			this.creepMove(creep, structure)
 		}
+	},
+
+	/**
+	 * Repair specified structure
+	 *
+	 * @param {Creep} 					creep
+     * @param {StructureController} 	controller
+	 *
+	 * @return void
+	 */
+	creepSign: function(creep, controller, signText){
+		creep.say('🖉️ sign');
+		if (creep.signController(controller, signText) == ERR_NOT_IN_RANGE) {
+			this.creepMove(creep, controller);
+		}
 	}
 }
 

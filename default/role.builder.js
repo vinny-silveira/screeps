@@ -11,7 +11,7 @@ var roleBuilder = {
      * @return void
      */
     run: function(creep) {
-        let sourceKey       = 1;
+        let sourceKey       = 0;
         let constructions   = creep.room.find(FIND_CONSTRUCTION_SITES);
         let sources         = creep.room.find(FIND_SOURCES);
         let harvest         = creep.memory.building && creep.carry.energy == 0;

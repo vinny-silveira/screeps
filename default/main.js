@@ -4,6 +4,7 @@ var roleHarvester       = require('role.harvester');
 var roleUpgrader        = require('role.upgrader');
 var roleBuilder         = require('role.builder');
 var roleWallRepairer    = require('role.wallRepairer');
+var roleRepairer        = require('role.repairer');
 
 
 module.exports.loop = function () {
@@ -13,6 +14,7 @@ module.exports.loop = function () {
     let builderCount        = 0;
     let upgraderCount       = 0;
     let wallRepairerCount   = 0;
+    let repairerCount       = 0;
 
     let mySpawn             = params.getSpawn('Home');
     let myRoom              = params.getRoom('E54N57');
@@ -46,6 +48,11 @@ module.exports.loop = function () {
             wallRepairerCount++;
             roleWallRepairer.run(creep);
         }
+
+        if(creep.memory.role == 'repairer') {
+            repairerCount++;
+            roleRepairer.run(creep);
+        }
     }
 
     if (roomEnergy >= 200) {
@@ -63,7 +70,7 @@ module.exports.loop = function () {
 
     if (roomEnergy == roomEnergyMax) {
         let createGreatCreep = '';
-        if (harvesterCount < 2) {
+        if (harvesterCount < 4) {
             createGreatCreep = 'harvester';
         } else if (builderCount < 2 && constructions.length) {
             createGreatCreep = 'builder';
@@ -82,6 +89,7 @@ module.exports.loop = function () {
         console.log('Room Energy:   '+roomEnergy);
         console.log('Harvester:     '+harvesterCount);
         console.log('Wall Repairer: '+wallRepairerCount);
+        console.log('Repairer:      '+repairerCount);
         console.log('Builder:       '+builderCount);
         console.log('Upgrader:      '+upgraderCount);
         console.log('------------------------------');

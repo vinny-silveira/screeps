@@ -11,6 +11,7 @@ var roleUpgrader = {
      * @return void
      */
     run: function(creep, controller) {
+        let signText    = "I just learned how to do this! Have mercy!";
         let sourceKey   = 0;
         let sources     = creep.room.find(FIND_SOURCES);
         let harvest     = creep.memory.upgrading && creep.carry.energy == 0;
@@ -27,6 +28,10 @@ var roleUpgrader = {
             prototypeCreep.creepUpgrade(creep, controller);
         } else {
             prototypeCreep.creepHarvest(creep, sources[sourceKey]);
+        }
+
+        if (controller.sign == undefined || controller.sign.text != signText) {
+            prototypeCreep.creepSign(creep, controller, signText)
         }
     }
 };
