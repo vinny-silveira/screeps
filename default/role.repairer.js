@@ -1,7 +1,7 @@
 var roleBuilder     = require('role.builder');
 var prototypeCreep  = require('prototype.creep');
 
-module.exports = {
+var roleRepairer = {
 
     /**
      * Routine of one Repairer
@@ -11,10 +11,16 @@ module.exports = {
      * @return void
      */
     run: function(creep) {
-        let sourceKey       = 0;
-        let sources         = creep.room.find(FIND_SOURCES);
         let notWork         = creep.memory.working && creep.carry.energy == 0;
         let work            = !creep.memory.working && creep.carry.energy == creep.carryCapacity;
+        let sources         = creep.pos.findClosestByRange(FIND_SOURCES);
+
+        let structure       = creep.room.find(FIND_STRUCTURES, {
+            filter: (s) => s.hits < s.hitsMax && (
+                s.structureType != STRUCTURE_WALL &&
+                s.structureType != STRUCTURE_EXTENSION
+            )
+        }).sort((a,b) => a.hits - b.hits);
 
         if (notWork) {
             creep.memory.working = false;
@@ -23,20 +29,15 @@ module.exports = {
         }
 
         if (creep.memory.working == true) {
-            var structure = creep.pos.findClosestByPath(FIND_STRUCTURES, {
-                filter: (s) => s.hits < s.hitsMax && (
-                    s.structureType != STRUCTURE_WALL &&
-                    s.structureType != STRUCTURE_EXTENSION
-                )
-            });
-
-            if (structure != undefined) {
-                prototypeCreep.creepRepair(creep, structure);
+            if (structure) {
+                prototypeCreep.creepRepair(creep, structure[0]);
             } else {
                 roleBuilder.run(creep);
             }
         } else {
-            prototypeCreep.creepHarvest(creep, sources[sourceKey]);
+            prototypeCreep.creepHarvest(creep, sources);
         }
     }
 };
+
+module.exports = roleRepairer;

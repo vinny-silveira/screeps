@@ -1,97 +1,85 @@
+// Misc
 var params              = require('parameters');
 var util                = require('utils');
+
+// Roles
 var roleHarvester       = require('role.harvester');
 var roleUpgrader        = require('role.upgrader');
 var roleBuilder         = require('role.builder');
 var roleWallRepairer    = require('role.wallRepairer');
 var roleRepairer        = require('role.repairer');
 
+//Prototypes
+var protoTower          = require('prototype.tower');
+var protoSpawn          = require('prototype.spawn');
+
 
 module.exports.loop = function () {
-    const OUTPUT_LOGS       = true;
+    const OUTPUT_LOGS   = true;
 
-    let harvesterCount      = 0;
-    let builderCount        = 0;
-    let upgraderCount       = 0;
-    let wallRepairerCount   = 0;
-    let repairerCount       = 0;
+    let prefix          = 'role';
+    let informations    = {'rooms': []};
+    let before          = 0.00;
+    let after           = 0.00;
 
-    let mySpawn             = params.getSpawn('Home');
-    let myRoom              = params.getRoom('E54N57');
-    let roomEnergy          = myRoom.energyAvailable.toFixed(2);
-    let roomEnergyMax       = myRoom.energyCapacityAvailable.toFixed(2);
 
-    let constructions       = myRoom.find(FIND_CONSTRUCTION_SITES);
-    let walls               = myRoom.find(FIND_STRUCTURES, {
-        filter: (s) => (s.structureType == STRUCTURE_WALL && s.hits <= 3000)
-    }).sort((a,b) => a.hits - b.hits);
+    before = Game.cpu.getUsed();
 
-    for(let name in Game.creeps) {
-        let creep = Game.creeps[name];
+    for (let name in Game.rooms) {
+        if (name == 'E55N56') { // Workaround to ignore losted creeps...
+            Game.notify('A creep ran away to room ' + name, 180);
+            continue;
+        }
+        let room = Game.rooms[name];
+        let creeps = room.find(FIND_MY_CREEPS);
 
-        if(creep.memory.role == 'harvester') {
-            harvesterCount++;
-            roleHarvester.run(creep);
+        // Sorting by role
+        creeps.sort((a,b) => a.memory.role.localeCompare(b.memory.role));
+
+        let info = {
+            'name': name,
+            'energy': room.energyAvailable.toFixed(2),
+            'energyMax': room.energyCapacityAvailable.toFixed(2),
+            'totalCreeps': creeps.length,
+            'roles': {}
+        };
+
+        protoTower.run(room);
+
+        for (let creep of creeps) {
+            for (let role of params.roles) {
+                if (role == creep.memory.role) {
+                    if (info.roles[role] == undefined) {
+                        info.roles[role] = 1;
+                    } else {
+                        info.roles[role] += 1;
+                    }
+                    let runner = prefix.concat(role.charAt(0).toUpperCase().concat(role.slice(1)));
+                    let run = runner.concat('.run(creep)');
+                    eval(run);
+                }
+            }
         }
 
-        if(creep.memory.role == 'upgrader') {
-            upgraderCount++;
-            roleUpgrader.run(creep, myRoom.controller);
-        }
-
-        if(creep.memory.role == 'builder') {
-            builderCount++;
-            roleBuilder.run(creep);
-        }
-
-        if(creep.memory.role == 'wallRepairer') {
-            wallRepairerCount++;
-            roleWallRepairer.run(creep);
-        }
-
-        if(creep.memory.role == 'repairer') {
-            repairerCount++;
-            roleRepairer.run(creep);
-        }
+        informations.rooms.push(info);
     }
 
-    if (roomEnergy >= 200) {
-        let createSmallCreep = '';
-        if (harvesterCount < 1){
-            createSmallCreep = 'harvester';
-        }
-        if (mySpawn.room.controller.ticksToDowngrade < 300){
-            createSmallCreep = 'upgrader';
-        }
-        if (createSmallCreep.length > 0){
-            mySpawn.createCreep(params.getBody('normal'), undefined, {role: createSmallCreep});
-        }
-    }
+    protoSpawn.spawnner(informations.rooms);
 
-    if (roomEnergy == roomEnergyMax) {
-        let createGreatCreep = '';
-        if (harvesterCount < 4) {
-            createGreatCreep = 'harvester';
-        } else if (builderCount < 2 && constructions.length) {
-            createGreatCreep = 'builder';
-        } else if(wallRepairerCount < 2 && walls.length){
-            createGreatCreep = 'wallRepairer';
-        } else {
-            createGreatCreep = 'upgrader';
-        }
-        mySpawn.createCreep(params.getBody('cool'), undefined, {role: createGreatCreep});
-    }
+    // Sometimes, uncomment this line to clean memory
+    // util.clearMemory(true);
 
-    util.clearMemory();
+    after = Game.cpu.getUsed();
 
     if(OUTPUT_LOGS){
-        console.log('Room Capacity: '+roomEnergyMax);
-        console.log('Room Energy:   '+roomEnergy);
-        console.log('Harvester:     '+harvesterCount);
-        console.log('Wall Repairer: '+wallRepairerCount);
-        console.log('Repairer:      '+repairerCount);
-        console.log('Builder:       '+builderCount);
-        console.log('Upgrader:      '+upgraderCount);
-        console.log('------------------------------');
+        console.log('CPU Usage      : Before -> ' + before.toFixed(2), '- After -> ' + after.toFixed(2));
+        for(let info of informations.rooms){
+            console.log('Room           : ' + info.name);
+            console.log('Energy         : ' + info.energy);
+            console.log('EnergyMax      : ' + info.energyMax);
+            console.log('Total Creeps   : ' + info.totalCreeps);
+            console.log('Creeps         : ' + JSON.stringify(info.roles));
+            console.log('--------------------------------------------');
+        }
     }
 }

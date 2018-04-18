@@ -5,13 +5,12 @@ var roleUpgrader = {
     /**
      * Routine of one Upgrader
      *
-     * @param {Creep}                   creep
-     * @param {StructureController}     controller
+     * @param {Creep} creep
      *
      * @return void
      */
-    run: function(creep, controller) {
-        let signText    = "I just learned how to do this! Have mercy!";
+    run: function(creep) {
+        let signText    = "Good programmers write code that humans can understand.";
         let sourceKey   = 0;
         let sources     = creep.room.find(FIND_SOURCES);
         let harvest     = creep.memory.upgrading && creep.carry.energy == 0;
@@ -25,13 +24,13 @@ var roleUpgrader = {
         }
 
         if (creep.memory.upgrading) {
-            prototypeCreep.creepUpgrade(creep, controller);
+            prototypeCreep.creepUpgrade(creep, creep.room.controller);
         } else {
             prototypeCreep.creepHarvest(creep, sources[sourceKey]);
         }
 
-        if (controller.sign == undefined || controller.sign.text != signText) {
-            prototypeCreep.creepSign(creep, controller, signText)
+        if (creep.room.controller.sign == undefined || creep.room.controller.sign.text != signText) {
+            prototypeCreep.creepSign(creep, creep.room.controller, signText);
         }
     }
 };
