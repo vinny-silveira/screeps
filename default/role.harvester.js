@@ -1,4 +1,4 @@
-var prototypeCreep = require('prototype.creep');
+var prototypeCreep  = require('prototype.creep');
 
 var roleHarvester = {
 
@@ -10,36 +10,50 @@ var roleHarvester = {
      * @return void
      */
     run: function(creep) {
-        let sourceKey   = 1;
+        let sourceKey   = (!isNaN(creep.memory.source_target) && creep.memory.source_target != null  ? creep.memory.source_target : 1);
         let harvest     = creep.carry.energy < creep.carryCapacity;
         let sources     = creep.room.find(FIND_SOURCES);
-        let containers  = creep.room.find(FIND_STRUCTURES, {
+
+        // Prevent access to a source that not exist...
+        if (sources.length == 1) {
+            sourceKey = 0;
+        }
+
+        let containers  = creep.pos.findClosestByRange(FIND_STRUCTURES, {
             filter: (container) => {
                 return(
                     container.structureType == STRUCTURE_CONTAINER &&
                     container.store[RESOURCE_ENERGY] < container.storeCapacity
-                );
+                )
             }
         });
-        let structures  = creep.room.find(FIND_STRUCTURES, {
+        let structures  = creep.pos.findClosestByRange(FIND_STRUCTURES, {
             filter: (structure) => {
                 return (
-                    structure.structureType == STRUCTURE_EXTENSION ||
-                    structure.structureType == STRUCTURE_SPAWN ||
+                    structure.structureType == STRUCTURE_EXTENSION
+                    || structure.structureType == STRUCTURE_SPAWN
+                ) && structure.energy < structure.energyCapacity
+            }
+        });
+        let towers      = creep.pos.findClosestByRange(FIND_STRUCTURES, {
+            filter: (structure) => {
+                return (
                     structure.structureType == STRUCTURE_TOWER
-                ) && structure.energy < structure.energyCapacity;
+                ) && structure.energy < structure.energyCapacity
             }
         });
 
         if (harvest) {
             prototypeCreep.creepHarvest(creep, sources[sourceKey]);
         } else {
-            if (structures.length) {
-                prototypeCreep.creepTransfer(creep, structures[0], RESOURCE_ENERGY);
-            } else if (containers.length) {
-                prototypeCreep.creepTransfer(creep, containers[0], RESOURCE_ENERGY);
+            if (creep.memory.provider == 1 && towers) {
+                prototypeCreep.creepTransfer(creep, towers, RESOURCE_ENERGY);
             } else {
-                prototypeCreep.creepMove(creep, sources[0]);
+                if (structures) {
+                    prototypeCreep.creepTransfer(creep, structures, RESOURCE_ENERGY);
+                } else if (containers) {
+                    prototypeCreep.creepTransfer(creep, containers, RESOURCE_ENERGY);
+                }
             }
         }
     }

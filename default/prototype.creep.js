@@ -78,7 +78,7 @@ var prototypeCreep = {
 	creepUpgrade: function(creep, controller) {
 		creep.say('⚡ upgrade');
 		if (creep.upgradeController(controller) == ERR_NOT_IN_RANGE) {
-			this.creepMove(creep, controller)
+			this.creepMove(creep, controller);
 		}
 	},
 
@@ -93,7 +93,7 @@ var prototypeCreep = {
 	creepRepair: function(creep, structure) {
 		creep.say('🛠️ repair');
 		if (creep.repair(structure) == ERR_NOT_IN_RANGE) {
-			this.creepMove(creep, structure)
+			this.creepMove(creep, structure);
 		}
 	},
 
@@ -101,7 +101,7 @@ var prototypeCreep = {
 	 * Repair specified structure
 	 *
 	 * @param {Creep} 					creep
-     * @param {StructureController} 	controller
+	 * @param {StructureController} 	controller
 	 *
 	 * @return void
 	 */
@@ -113,4 +113,4 @@ var prototypeCreep = {
 	}
 }
 
-module.exports = prototypeCreep
+module.exports = prototypeCreep;
