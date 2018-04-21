@@ -1,4 +1,5 @@
-var prototypeCreep = require('prototype.creep');
+var prototypeCreep  = require('prototype.creep');
+var params          = require('parameters');
 
 var roleUpgrader = {
 
@@ -10,11 +11,11 @@ var roleUpgrader = {
      * @return void
      */
     run: function(creep) {
-        let signText    = "Good programmers write code that humans can understand.";
-        let sourceKey   = 0;
+        let signText    = params.signText;
+        let sourceKey   = params.defaultSource.upgrader;
         let sources     = creep.room.find(FIND_SOURCES);
-        let harvest     = creep.memory.upgrading && creep.carry.energy == 0;
-        let upgrade     = !creep.memory.upgrading && creep.carry.energy == creep.carryCapacity;
+        let harvest     = (creep.memory.upgrading && creep.carry.energy == 0);
+        let upgrade     = (!creep.memory.upgrading && creep.carry.energy == creep.carryCapacity);
 
         if (harvest) {
             creep.memory.upgrading = false;

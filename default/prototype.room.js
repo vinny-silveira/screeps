@@ -1,3 +1,5 @@
+var params = require('parameters');
+
 var prototypeRoom = {
 
     /**
@@ -19,7 +21,7 @@ var prototypeRoom = {
     /**
      * Count constructions sites
      *
-     * @return {number}
+     * @return {Number}
      */
     countSites: function(){
         return this.room.find(FIND_CONSTRUCTION_SITES).length;
@@ -28,12 +30,12 @@ var prototypeRoom = {
     /**
      * Count walls that can be healed
      *
-     * @return {number}
+     * @return {Number}
      */
     countWalls: function(){
         return this.room.find(FIND_STRUCTURES, {
             filter: (s) => (
-                s.structureType == STRUCTURE_WALL && s.hits <= 3000
+                s.structureType == STRUCTURE_WALL && s.hits <= params.minHits['walls']
             )
         }).length;
     },
@@ -41,17 +43,16 @@ var prototypeRoom = {
     /**
      * Count roads, ramparts, etc.. that can be healed
      *
-     * @return {number}
+     * @return {Number}
      */
     countStructures: function(){
         return this.room.find(FIND_STRUCTURES, {
-            filter: (s) => s.hits <= 2500 && (
+            filter: (s) => s.hits <= params.minHits['others'] && (
                 s.structureType != STRUCTURE_WALL &&
                 s.structureType != STRUCTURE_EXTENSION
             )
         }).length;
     },
-
 }
 
 module.exports = prototypeRoom;

@@ -1,4 +1,5 @@
 var prototypeCreep  = require('prototype.creep');
+var params          = require('parameters');
 
 var roleHarvester = {
 
@@ -10,10 +11,14 @@ var roleHarvester = {
      * @return void
      */
     run: function(creep) {
-        let sourceKey   = (!isNaN(creep.memory.source_target) && creep.memory.source_target != null  ? creep.memory.source_target : 1);
-        let harvest     = creep.carry.energy < creep.carryCapacity;
+        let sourceKey   = params.defaultSource.harvester;
+        let harvest     = (creep.carry.energy < creep.carryCapacity);
         let sources     = creep.room.find(FIND_SOURCES);
 
+        // Define default value from parameters if harvester don't have specified in your memory...
+        if (!isNaN(creep.memory.source_target) && creep.memory.source_target != null) {
+            sourceKey = creep.memory.source_target;
+        }
         // Prevent access to a source that not exist...
         if (sources.length == 1) {
             sourceKey = 0;

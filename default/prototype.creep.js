@@ -27,6 +27,7 @@ var prototypeCreep = {
 	 *
 	 * @param {Creep} 			creep
 	 * @param {RoomPosition} 	target
+	 * @param {Integer} 		resourceType
 	 *
 	 * @return void
 	 */
@@ -102,6 +103,7 @@ var prototypeCreep = {
 	 *
 	 * @param {Creep} 					creep
 	 * @param {StructureController} 	controller
+	 * @param {String} 					signText
 	 *
 	 * @return void
 	 */

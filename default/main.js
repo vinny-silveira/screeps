@@ -13,27 +13,24 @@ var roleRepairer        = require('role.repairer');
 var protoTower          = require('prototype.tower');
 var protoSpawn          = require('prototype.spawn');
 
-
 module.exports.loop = function () {
-    const OUTPUT_LOGS   = true;
+    const OUTPUT_LOGS   = false;
 
     let prefix          = 'role';
     let informations    = {'rooms': []};
     let before          = 0.00;
     let after           = 0.00;
 
-
     before = Game.cpu.getUsed();
 
     for (let name in Game.rooms) {
-        if (name == 'E55N56') { // Workaround to ignore losted creeps...
-            Game.notify('A creep ran away to room ' + name, 180);
+        if (params.spawns[name] == undefined) {
             continue;
         }
         let room = Game.rooms[name];
         let creeps = room.find(FIND_MY_CREEPS);
 
-        // Sorting by role
+        // Sorting by role...
         creeps.sort((a,b) => a.memory.role.localeCompare(b.memory.role));
 
         let info = {
@@ -60,7 +57,6 @@ module.exports.loop = function () {
                 }
             }
         }
-
         informations.rooms.push(info);
     }
 
