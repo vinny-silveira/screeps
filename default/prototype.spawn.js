@@ -7,10 +7,10 @@ var prototypeSpawn = {
      * Diff
      *
      * @param {Array}   array
-     * @param {number}  value
-     * @param {mixed}   key
+     * @param {Number}  value
+     * @param {Mixed}   key
      *
-     * @return {boolean}
+     * @return {Boolean}
      */
     diff: function(array, value, key){
         return (array[key] < value || array[key] == undefined);
@@ -25,20 +25,31 @@ var prototypeSpawn = {
      */
     spawnner: function(creeps) {
         for (info of creeps) {
-            let myRoom      = params.getRoom(info.name);
-            let spawnName   = params.getSpawnFromRoom(info.name);
-            let spawn       = params.getSpawn(spawnName);
+            let myRoom  = params.getRoom(info.name);
+            let spawn   = params.getSpawnFromRoom(info.name);
 
             protoRoom.setRoom(myRoom);
 
             if (info.energy >= 200) {
                 let createSmallCreep = '';
-                if (this.diff(info.roles, 1, 'harvester')) {
+                let createHarvester     = this.diff(info.roles, 1, 'harvester');
+                let createRepairer      = this.diff(info.roles, 1, 'repairer') && protoRoom.countStructures();
+                let createBuilder       = this.diff(info.roles, 1, 'builder') && protoRoom.countSites();
+                let createWallRepairer  = this.diff(info.roles, 1, 'wallRepairer') && protoRoom.countWalls();
+                let createUpgrader      = myRoom.controller.ticksToDowngrade < 300;
+
+                if (createHarvester) {
                     createSmallCreep = 'harvester';
-                }
-                if (myRoom.controller.ticksToDowngrade < 300) {
+                } else if (createRepairer) {
+                    createSmallCreep = 'repairer';
+                } else if (createBuilder) {
+                    createSmallCreep = 'builder';
+                } else if (createWallRepairer) {
+                    createSmallCreep = 'wallRepairer';
+                } else if (createUpgrader) {
                     createSmallCreep = 'upgrader';
                 }
+
                 if (createSmallCreep.length > 0) {
                     spawn.createCreep(params.getBody('normal'), undefined, {
                         role: createSmallCreep

@@ -1,4 +1,5 @@
 var prototypeCreep  = require('prototype.creep');
+var params          = require('parameters');
 
 var roleBuilder = {
 
@@ -10,11 +11,16 @@ var roleBuilder = {
      * @return void
      */
     run: function(creep) {
-        let sourceKey       = 0;
+        let sourceKey       = params.defaultSource.builder;
         let constructions   = creep.pos.findClosestByRange(FIND_CONSTRUCTION_SITES);
         let sources         = creep.room.find(FIND_SOURCES);
         let harvest         = (creep.memory.building && creep.carry.energy == 0);
         let build           = (!creep.memory.building && creep.carry.energy == creep.carryCapacity);
+
+        // Prevent access to a source that not exist...
+        if (sources.length == 1) {
+            sourceKey = 0;
+        }
 
         if (build) {
             creep.memory.building = true;

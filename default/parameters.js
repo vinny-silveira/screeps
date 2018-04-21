@@ -30,21 +30,44 @@ var parameters = {
     },
 
     /**
-     * Return spawnName from specified room
+     * Min damage for a structure to be healed
+     */
+    minHits: {
+        'walls': 3000,
+        'others': 2500 // All non-wall structures...
+    },
+
+    /**
+     * Default sources for some roles...
+     */
+    defaultSource: {
+        'builder': 1,
+        'harvester': 1,
+        'upgrader': 0
+    },
+
+    /**
+     * Sign for controller
+     */
+    signText: "Good programmers write code that humans can understand.",
+
+    /**
+     * Return spawn from specified room
      *
-     * @param {string} room
+     * @param {String} room
      *
-     * @return {string}
+     * @return {StructureSpawn}
      */
     getSpawnFromRoom: function(room){
-        return this.inArray(this.spawns, room);
+        let spawnName = this.inArray(this.spawns, room);
+        return this.getSpawn(spawnName);
     },
 
     /**
      * Check if key exists and return it
      *
-     * @param Array array
-     * @param string key
+     * @param {Array} array
+     * @param {String} key
      * @throws If key not exist
      *
      * @return mixed
@@ -60,9 +83,9 @@ var parameters = {
     /**
      * Return the required body
      *
-     * @param string bodyType
+     * @param {String} bodyType
      *
-     * @return Array
+     * @return {Array}
      */
     getBody: function(bodyType){
         return this.inArray(this.bodys, bodyType);
@@ -71,7 +94,7 @@ var parameters = {
     /**
      * Return the required spawn
      *
-     * @param string spawn
+     * @param {String} spawn
      *
      * @return {StructureSpawn}
      */
@@ -80,9 +103,9 @@ var parameters = {
     },
 
     /**
-     * Return the required room, ifnull, throw!!
+     * Return the required room
      *
-     * @param string room
+     * @param {String} room
      *
      * @return {Room}
      */

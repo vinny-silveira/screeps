@@ -11,8 +11,8 @@ var roleRepairer = {
      * @return void
      */
     run: function(creep) {
-        let notWork         = creep.memory.working && creep.carry.energy == 0;
-        let work            = !creep.memory.working && creep.carry.energy == creep.carryCapacity;
+        let notWork         = (creep.memory.working && creep.carry.energy == 0);
+        let work            = (!creep.memory.working && creep.carry.energy == creep.carryCapacity);
         let sources         = creep.pos.findClosestByRange(FIND_SOURCES);
 
         let structure       = creep.room.find(FIND_STRUCTURES, {
