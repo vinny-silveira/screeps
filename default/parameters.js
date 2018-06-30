@@ -1,25 +1,13 @@
-var parameters = {
+let parameters = {
 
     /**
      * Here, contains the body preset for createCreep
      */
     bodys: {
-        'normal': [WORK,CARRY,MOVE],
-        'claimer': [CLAIM,WORK,CARRY,MOVE],
-        'cool': [WORK,WORK,WORK,WORK,WORK,CARRY,MOVE,MOVE,MOVE]
+        'normal': [WORK, CARRY, MOVE],
+        'claimer': [CLAIM, WORK, CARRY, MOVE],
+        'cool': [WORK, WORK, WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE]
     },
-
-    /**
-     * Here, contains all roles
-     */
-    roles: [
-        'harvester',
-        'tester',
-        'upgrader',
-        'builder',
-        'wallRepairer',
-        'repairer',
-    ],
 
     /**
      * Relation of spawn <-> room
@@ -49,7 +37,7 @@ var parameters = {
     /**
      * Sign for controller
      */
-    signText: "Good programmers write code that humans can understand.",
+    signText: "Keyboard not found! Press F1.",
 
     /**
      * Return spawn from specified room
@@ -58,7 +46,7 @@ var parameters = {
      *
      * @return {StructureSpawn}
      */
-    getSpawnFromRoom: function(room){
+    getSpawnFromRoom: function (room) {
         let spawnName = this.inArray(this.spawns, room);
         return this.getSpawn(spawnName);
     },
@@ -66,14 +54,14 @@ var parameters = {
     /**
      * Check if key exists and return it
      *
-     * @param {Array} array
-     * @param {String} key
+     * @param {Array|Object}    array
+     * @param {String}          key
      * @throws If key not exist
      *
      * @return mixed
      */
-    inArray: function(array, key){
-        if (array[key] != undefined) {
+    inArray: function (array, key) {
+        if (array[key] !== undefined) {
             return array[key];
         } else {
             throw new Error(key + ' not found!');
@@ -87,7 +75,7 @@ var parameters = {
      *
      * @return {Array}
      */
-    getBody: function(bodyType){
+    getBody: function (bodyType) {
         return this.inArray(this.bodys, bodyType);
     },
 
@@ -98,7 +86,7 @@ var parameters = {
      *
      * @return {StructureSpawn}
      */
-    getSpawn: function(spawn){
+    getSpawn: function (spawn) {
         return this.inArray(Game.spawns, spawn);
     },
 
@@ -109,9 +97,9 @@ var parameters = {
      *
      * @return {Room}
      */
-    getRoom: function(room){
+    getRoom: function (room) {
         return this.inArray(Game.rooms, room);
     }
-}
+};
 
 module.exports = parameters;

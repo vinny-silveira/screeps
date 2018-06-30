@@ -1,7 +1,7 @@
-var prototypeCreep  = require('prototype.creep');
-var params          = require('parameters');
+let prototypeCreep  = require('prototype.creep');
+let params          = require('parameters');
 
-var roleHarvester = {
+let roleHarvester = {
 
     /**
      * Routine of one Harvester
@@ -10,7 +10,7 @@ var roleHarvester = {
      *
      * @return void
      */
-    run: function(creep) {
+    run: function (creep) {
         let sourceKey   = params.defaultSource.harvester;
         let harvest     = (creep.carry.energy < creep.carryCapacity);
         let sources     = creep.room.find(FIND_SOURCES);
@@ -19,31 +19,34 @@ var roleHarvester = {
         if (!isNaN(creep.memory.source_target) && creep.memory.source_target != null) {
             sourceKey = creep.memory.source_target;
         }
+
         // Prevent access to a source that not exist...
-        if (sources.length == 1) {
+        if (sources.length === 1) {
             sourceKey = 0;
         }
 
-        let containers  = creep.pos.findClosestByRange(FIND_STRUCTURES, {
+        let containers = creep.pos.findClosestByRange(FIND_STRUCTURES, {
             filter: (container) => {
-                return(
-                    container.structureType == STRUCTURE_CONTAINER &&
+                return (
+                    container.structureType === STRUCTURE_CONTAINER &&
                     container.store[RESOURCE_ENERGY] < container.storeCapacity
                 )
             }
         });
-        let structures  = creep.pos.findClosestByRange(FIND_STRUCTURES, {
+
+        let structures = creep.pos.findClosestByRange(FIND_STRUCTURES, {
             filter: (structure) => {
                 return (
-                    structure.structureType == STRUCTURE_EXTENSION
-                    || structure.structureType == STRUCTURE_SPAWN
+                    structure.structureType === STRUCTURE_EXTENSION
+                    || structure.structureType === STRUCTURE_SPAWN
                 ) && structure.energy < structure.energyCapacity
             }
         });
-        let towers      = creep.pos.findClosestByRange(FIND_STRUCTURES, {
+
+        let towers = creep.pos.findClosestByRange(FIND_STRUCTURES, {
             filter: (structure) => {
                 return (
-                    structure.structureType == STRUCTURE_TOWER
+                    structure.structureType === STRUCTURE_TOWER
                 ) && structure.energy < structure.energyCapacity
             }
         });
@@ -51,7 +54,7 @@ var roleHarvester = {
         if (harvest) {
             prototypeCreep.creepHarvest(creep, sources[sourceKey]);
         } else {
-            if (creep.memory.provider == 1 && towers) {
+            if (creep.memory.provider === 1 && towers) {
                 prototypeCreep.creepTransfer(creep, towers, RESOURCE_ENERGY);
             } else {
                 if (structures) {

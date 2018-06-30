@@ -1,7 +1,7 @@
-var prototypeCreep  = require('prototype.creep');
-var params          = require('parameters');
+let prototypeCreep  = require('prototype.creep');
+let params          = require('parameters');
 
-var roleUpgrader = {
+let roleUpgrader = {
 
     /**
      * Routine of one Upgrader
@@ -10,12 +10,12 @@ var roleUpgrader = {
      *
      * @return void
      */
-    run: function(creep) {
+    run: function (creep) {
         let signText    = params.signText;
         let sourceKey   = params.defaultSource.upgrader;
         let sources     = creep.room.find(FIND_SOURCES);
-        let harvest     = (creep.memory.upgrading && creep.carry.energy == 0);
-        let upgrade     = (!creep.memory.upgrading && creep.carry.energy == creep.carryCapacity);
+        let harvest     = (creep.memory.upgrading && creep.carry.energy === 0);
+        let upgrade     = (!creep.memory.upgrading && creep.carry.energy === creep.carryCapacity);
 
         if (harvest) {
             creep.memory.upgrading = false;
@@ -30,7 +30,7 @@ var roleUpgrader = {
             prototypeCreep.creepHarvest(creep, sources[sourceKey]);
         }
 
-        if (creep.room.controller.sign == undefined || creep.room.controller.sign.text != signText) {
+        if (creep.room.controller.sign === undefined || creep.room.controller.sign.text !== signText) {
             prototypeCreep.creepSign(creep, creep.room.controller, signText);
         }
     }

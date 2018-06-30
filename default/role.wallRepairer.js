@@ -1,7 +1,7 @@
-var prototypeCreep  = require('prototype.creep');
-var roleBuilder     = require('role.builder');
+let prototypeCreep  = require('prototype.creep');
+let roleBuilder     = require('role.builder');
 
-var roleWallRepairer = {
+let roleWallRepairer = {
 
     /**
      * Routine of one Wall Repairer
@@ -10,14 +10,14 @@ var roleWallRepairer = {
      *
      * @return void
      */
-    run: function(creep) {
-        let working     = !creep.memory.working && creep.carry.energy == creep.carryCapacity;
-        let notWorking  = creep.memory.working && creep.carry.energy == 0;
+    run: function (creep) {
+        let working     = !creep.memory.working && creep.carry.energy === creep.carryCapacity;
+        let notWorking  = creep.memory.working && creep.carry.energy === 0;
         let sources     = creep.pos.findClosestByRange(FIND_SOURCES);
 
-        let walls       = creep.room.find(FIND_STRUCTURES, {
-            filter: (s) => (s.structureType == STRUCTURE_WALL && s.hits <= 3000)
-        }).sort((a,b) => a.hits - b.hits);
+        let walls = creep.room.find(FIND_STRUCTURES, {
+            filter: (s) => (s.structureType === STRUCTURE_WALL && s.hits <= 3000)
+        }).sort((a, b) => a.hits - b.hits);
 
         if (notWorking) {
             creep.memory.working = false;
@@ -36,6 +36,6 @@ var roleWallRepairer = {
             prototypeCreep.creepHarvest(creep, sources);
         }
     }
-}
+};
 
 module.exports = roleWallRepairer;
