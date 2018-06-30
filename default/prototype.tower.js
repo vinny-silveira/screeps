@@ -1,4 +1,4 @@
-var tower = {
+let tower = {
 
     /**
      * Routine of one Tower
@@ -7,16 +7,17 @@ var tower = {
      *
      * @return void
      */
-    run: function(room) {
-        towers = room.find(FIND_MY_STRUCTURES, {
-            filter: { structureType: STRUCTURE_TOWER }
+    run: function (room) {
+        let towers = room.find(FIND_MY_STRUCTURES, {
+            filter: {structureType: STRUCTURE_TOWER}
         });
-        _.forEach (towers, function(tower) {
-            var closestHostile = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
+
+        towers.forEach(function (tower) {
+            let closestHostile = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
             if (closestHostile) {
                 tower.attack(closestHostile);
             }
-        })
+        });
     }
 };
 

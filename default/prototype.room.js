@@ -1,6 +1,6 @@
-var params = require('parameters');
+let params = require('parameters');
 
-var prototypeRoom = {
+let prototypeRoom = {
 
     /**
      * The room...
@@ -14,7 +14,7 @@ var prototypeRoom = {
      *
      * @return void
      */
-    setRoom: function(room) {
+    setRoom: function (room) {
         this.room = room;
     },
 
@@ -23,7 +23,7 @@ var prototypeRoom = {
      *
      * @return {Number}
      */
-    countSites: function(){
+    countSites: function () {
         return this.room.find(FIND_CONSTRUCTION_SITES).length;
     },
 
@@ -32,10 +32,10 @@ var prototypeRoom = {
      *
      * @return {Number}
      */
-    countWalls: function(){
+    countWalls: function () {
         return this.room.find(FIND_STRUCTURES, {
             filter: (s) => (
-                s.structureType == STRUCTURE_WALL && s.hits <= params.minHits['walls']
+                s.structureType === STRUCTURE_WALL && s.hits <= params.minHits['walls']
             )
         }).length;
     },
@@ -45,14 +45,14 @@ var prototypeRoom = {
      *
      * @return {Number}
      */
-    countStructures: function(){
+    countStructures: function () {
         return this.room.find(FIND_STRUCTURES, {
             filter: (s) => s.hits <= params.minHits['others'] && (
-                s.structureType != STRUCTURE_WALL &&
-                s.structureType != STRUCTURE_EXTENSION
+                s.structureType !== STRUCTURE_WALL &&
+                s.structureType !== STRUCTURE_EXTENSION
             )
         }).length;
     },
-}
+};
 
 module.exports = prototypeRoom;

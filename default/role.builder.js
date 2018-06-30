@@ -1,7 +1,7 @@
-var prototypeCreep  = require('prototype.creep');
-var params          = require('parameters');
+let prototypeCreep  = require('prototype.creep');
+let params          = require('parameters');
 
-var roleBuilder = {
+let roleBuilder = {
 
     /**
      * Routine of one Builder
@@ -10,15 +10,15 @@ var roleBuilder = {
      *
      * @return void
      */
-    run: function(creep) {
+    run: function (creep) {
         let sourceKey       = params.defaultSource.builder;
         let constructions   = creep.pos.findClosestByRange(FIND_CONSTRUCTION_SITES);
         let sources         = creep.room.find(FIND_SOURCES);
-        let harvest         = (creep.memory.building && creep.carry.energy == 0);
-        let build           = (!creep.memory.building && creep.carry.energy == creep.carryCapacity);
+        let harvest         = (creep.memory.building && creep.carry.energy === 0);
+        let build           = (!creep.memory.building && creep.carry.energy === creep.carryCapacity);
 
         // Prevent access to a source that not exist...
-        if (sources.length == 1) {
+        if (sources.length === 1) {
             sourceKey = 0;
         }
 
@@ -32,8 +32,6 @@ var roleBuilder = {
         if (creep.memory.building) {
             if (constructions) {
                 prototypeCreep.creepBuild(creep, constructions);
-            } else {
-                Game.notify('All constructions were built, builders are idle!', 180);
             }
         } else {
             prototypeCreep.creepHarvest(creep, sources[sourceKey]);

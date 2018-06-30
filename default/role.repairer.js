@@ -1,7 +1,7 @@
-var roleBuilder     = require('role.builder');
-var prototypeCreep  = require('prototype.creep');
+let roleBuilder     = require('role.builder');
+let prototypeCreep  = require('prototype.creep');
 
-var roleRepairer = {
+let roleRepairer = {
 
     /**
      * Routine of one Repairer
@@ -10,17 +10,17 @@ var roleRepairer = {
      *
      * @return void
      */
-    run: function(creep) {
-        let notWork         = (creep.memory.working && creep.carry.energy == 0);
-        let work            = (!creep.memory.working && creep.carry.energy == creep.carryCapacity);
-        let sources         = creep.pos.findClosestByRange(FIND_SOURCES);
+    run: function (creep) {
+        let notWork = (creep.memory.working && creep.carry.energy === 0);
+        let work    = (!creep.memory.working && creep.carry.energy === creep.carryCapacity);
+        let sources = creep.pos.findClosestByRange(FIND_SOURCES);
 
-        let structure       = creep.room.find(FIND_STRUCTURES, {
+        let structure = creep.room.find(FIND_STRUCTURES, {
             filter: (s) => s.hits < s.hitsMax && (
-                s.structureType != STRUCTURE_WALL &&
-                s.structureType != STRUCTURE_EXTENSION
+                s.structureType !== STRUCTURE_WALL &&
+                s.structureType !== STRUCTURE_EXTENSION
             )
-        }).sort((a,b) => a.hits - b.hits);
+        }).sort((a, b) => a.hits - b.hits);
 
         if (notWork) {
             creep.memory.working = false;
@@ -28,7 +28,7 @@ var roleRepairer = {
             creep.memory.working = true;
         }
 
-        if (creep.memory.working == true) {
+        if (creep.memory.working === true) {
             if (structure) {
                 prototypeCreep.creepRepair(creep, structure[0]);
             } else {
