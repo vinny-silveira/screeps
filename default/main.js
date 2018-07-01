@@ -31,19 +31,30 @@ module.exports.loop = function () {
     let callingClear    = 'NO';
 
     /**
-     * 1 -  Uncomment the code bellow  if you have a newly conquered room;
-     * 2 -  Wait until your spawn has created;
+     * STEPS TO FOLLOW IF YOU WANT TO CONQUER AN ROOM
+     *
+     * Before of all, run this to create a claimer...
+     * Game.spawns['SPAWN'].createCreep([CLAIM, WORK, CARRY, MOVE], undefined, {'role': 'claimer', 'target': 'ROOM_TARGET'})
+     *
+     * ...and uncomment the code bellow...
+     *
+     * util.getCreepsByRole('claimer').forEach(function (creep) {
+     *     roles.claimer.run(creep);
+     * });
+     *
+     * And wait until this creep conquer the room, after...
+     * Follow these steps...
+     *
+     * 1 -  Uncomment the code bellow;
+     * 2 -  Wait until the spawn has been created;
      * 3 -  Comment this again;
      * 4 -  Register the room on parameters.
      *
      * OBS.:
-     *     The second parameter of call bellow, is the spawn that
-     *     will help the newly room!
+     *     The second parameter of the call bellow, is the spawn that
+     *     will help the newly conquered room!
      *
      * util.controlNewRoom('E53N57', 'Home');
-     * util.getCreepsByRole('claimer').forEach(function (creep) {
-     *   roles.claimer.run(creep);
-     * });
      */
 
     for (let name in Game.rooms) {
@@ -51,8 +62,12 @@ module.exports.loop = function () {
             continue;
         }
 
-        let room    = Game.rooms[name];
-        let creeps  = room.find(FIND_MY_CREEPS);
+        let room = Game.rooms[name];
+        let creeps = room.find(FIND_MY_CREEPS, {
+            filter: (creep) => {
+                return creep.memory.role !== 'claimer';
+            }
+        });
 
         // Sorting by role...
         creeps.sort((a, b) => a.memory.role.localeCompare(b.memory.role));
@@ -94,21 +109,21 @@ module.exports.loop = function () {
         console.log('--------------------------------------GLOBAL INFO---------------------------------------');
         console.log(
             'CPU Usage      :',
-            'Before ->', before.toFixed(2),
-            '- After ->', after.toFixed(2)
+            'Before ->',    before.toFixed(2),
+            '- After ->',   after.toFixed(2)
         );
         console.log(
             'Calls          :',
-            'clearMemory ->', callingClear,
-            '- spawnner ->', callingSpawnner
+            'clearMemory ->',   callingClear,
+            '- spawnner ->',    callingSpawnner
         );
         console.log('----------------------------------------------------------------------------------------');
         if (!OUTPUT_ONLY_USAGE) {
             for (let info of informations.rooms) {
                 console.log(
                     'Room           :',
-                    'Name:', info.name,
-                    '- Energy:', info.energy,
+                    'Name:',        info.name,
+                    '- Energy:',    info.energy,
                     '- EnergyMax:', info.energyMax,
                     '- Residents:', info.totalCreeps
                 );
