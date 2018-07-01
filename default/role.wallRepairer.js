@@ -1,5 +1,4 @@
-let prototypeCreep  = require('prototype.creep');
-let roleBuilder     = require('role.builder');
+let roleBuilder = require('role.builder');
 
 let roleWallRepairer = {
 

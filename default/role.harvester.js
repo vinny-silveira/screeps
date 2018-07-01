@@ -1,6 +1,3 @@
-let prototypeCreep  = require('prototype.creep');
-let params          = require('parameters');
-
 let roleHarvester = {
 
     /**
@@ -14,6 +11,7 @@ let roleHarvester = {
         let sourceKey   = params.defaultSource.harvester;
         let harvest     = (creep.carry.energy < creep.carryCapacity);
         let sources     = creep.room.find(FIND_SOURCES);
+        let parking     = creep.room.find(FIND_FLAGS);
 
         // Define default value from parameters if harvester don't have specified in your memory...
         if (!isNaN(creep.memory.source_target) && creep.memory.source_target != null) {
@@ -61,6 +59,10 @@ let roleHarvester = {
                     prototypeCreep.creepTransfer(creep, structures, RESOURCE_ENERGY);
                 } else if (containers) {
                     prototypeCreep.creepTransfer(creep, containers, RESOURCE_ENERGY);
+                } else {
+                    if (parking.length) {
+                        prototypeCreep.creepMove(creep, parking[0]);
+                    }
                 }
             }
         }

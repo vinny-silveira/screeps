@@ -1,5 +1,4 @@
-let roleBuilder     = require('role.builder');
-let prototypeCreep  = require('prototype.creep');
+let roleBuilder = require('role.builder');
 
 let roleRepairer = {
 
@@ -29,7 +28,7 @@ let roleRepairer = {
         }
 
         if (creep.memory.working === true) {
-            if (structure) {
+            if (structure.length) {
                 prototypeCreep.creepRepair(creep, structure[0]);
             } else {
                 roleBuilder.run(creep);
