@@ -112,6 +112,21 @@ let prototypeCreep = {
         if (creep.signController(controller, signText) === ERR_NOT_IN_RANGE) {
             this.creepMove(creep, controller);
         }
+    },
+
+    /**
+     * Claim an room
+     *
+     * @param {Creep}                   creep
+     * @param {StructureController}     controller
+     *
+     * @return void
+     */
+    creepClaim: function (creep, controller) {
+        creep.say('claim!');
+        if (creep.claimController(controller) === ERR_NOT_IN_RANGE) {
+            prototypeCreep.creepMove(creep, controller);
+        }
     }
 };
 

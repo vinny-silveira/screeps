@@ -1,6 +1,11 @@
 let parameters = {
 
     /**
+     * Your username
+     */
+    user: 'vinny_silveira',
+
+    /**
      * Here, contains the body preset for createCreep
      */
     bodys: {
@@ -10,11 +15,42 @@ let parameters = {
     },
 
     /**
+     * Min roles per room
+     */
+    minRoles: {
+        'E53N57': {
+            'harvester': 1,
+            'repairer': 1,
+            'builder': 2,
+            'wallRepairer': 0,
+            'upgrader': 2,
+            'defaultBody': 'normal'
+        },
+        'E54N57': {
+            'harvester': 2,
+            'repairer': 2,
+            'builder': 1,
+            'wallRepairer': 1,
+            'upgrader': 3,
+            'defaultBody': 'cool'
+        },
+        'E55N57': {
+            'harvester': 2,
+            'repairer': 2,
+            'builder': 1,
+            'wallRepairer': 1,
+            'upgrader': 4,
+            'defaultBody': 'cool'
+        },
+    },
+
+    /**
      * Relation of spawn <-> room
      */
     spawns: {
+        'E53N57': 'Spawn',
         'E54N57': 'Home',
-        'E55N57': 'House'
+        'E55N57': 'House',
     },
 
     /**
@@ -64,7 +100,7 @@ let parameters = {
         if (array[key] !== undefined) {
             return array[key];
         } else {
-            throw new Error(key + ' not found!');
+            throw new Error(JSON.stringify(key) + ' not found!');
         }
     },
 

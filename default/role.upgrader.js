@@ -1,6 +1,3 @@
-let prototypeCreep  = require('prototype.creep');
-let params          = require('parameters');
-
 let roleUpgrader = {
 
     /**

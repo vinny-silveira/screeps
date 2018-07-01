@@ -1,5 +1,3 @@
-let params = require('parameters');
-
 let prototypeRoom = {
 
     /**
