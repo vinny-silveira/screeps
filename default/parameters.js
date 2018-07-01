@@ -23,23 +23,23 @@ let parameters = {
             'repairer': 1,
             'builder': 2,
             'wallRepairer': 0,
-            'upgrader': 2,
+            'upgrader': 1,
             'defaultBody': 'normal'
         },
         'E54N57': {
             'harvester': 2,
-            'repairer': 2,
+            'repairer': 1,
             'builder': 1,
             'wallRepairer': 1,
-            'upgrader': 3,
+            'upgrader': 5,
             'defaultBody': 'cool'
         },
         'E55N57': {
             'harvester': 2,
-            'repairer': 2,
+            'repairer': 1,
             'builder': 1,
             'wallRepairer': 1,
-            'upgrader': 4,
+            'upgrader': 5,
             'defaultBody': 'cool'
         },
     },
