@@ -10,10 +10,7 @@ let prototypeCreep = {
      * @return void
      */
     creepMove: function (creep, target) {
-        let options = {
-            noPathFinding: true,
-            visualizePathStyle: {stroke: '#ffffff'}
-        };
+        let options = {noPathFinding: true, visualizePathStyle: {stroke: '#ffffff'}};
         if (creep.moveTo(target, options) === ERR_NOT_FOUND) {
             options.noPathFinding = false;
             creep.moveTo(target, options);
