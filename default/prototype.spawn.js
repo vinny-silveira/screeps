@@ -62,21 +62,16 @@ let prototypeSpawn = {
                 }
             }
             else if (info.energy >= 200) {
-                let createHarvester     = this.diff(info.roles, 1, 'harvester');
-                let createRepairer      = this.diff(info.roles, 1, 'repairer') && structs;
-                let createBuilder       = this.diff(info.roles, 1, 'builder') && sites;
-                let createWallRepairer  = this.diff(info.roles, 1, 'wallRepairer') && walls;
-                let createUpgrader      = myRoom.controller.ticksToDowngrade < 300;
+                let createHarvester = this.diff(info.roles, 1, 'harvester');
+                let createRepairer  = this.diff(info.roles, 1, 'repairer') && structs;
+                let createUpgrader  = myRoom.controller.ticksToDowngrade < 300;
+                body                = 'normal';
 
                 if (createHarvester) {
                     extras.role = 'harvester';
                     extras.provider = 1;
                 } else if (createRepairer) {
                     extras.role = 'repairer';
-                } else if (createBuilder) {
-                    extras.role = 'builder';
-                } else if (createWallRepairer) {
-                    extras.role = 'wallRepairer';
                 } else if (createUpgrader) {
                     extras.role = 'upgrader';
                 }

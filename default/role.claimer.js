@@ -17,7 +17,8 @@ let roleClaimer = {
             prototypeCreep.creepMove(creep, path);
         } else {
             let newController = creep.room.controller;
-            if (newController.owner.username !== params.user) {
+            let owner = newController.owner;
+            if (owner === undefined || owner.username !== params.user) {
                 prototypeCreep.creepClaim(creep, newController);
             } else if (newController.ticksToDowngrade < 300) {
                 roleUpgrader.run(creep);

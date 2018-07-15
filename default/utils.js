@@ -34,7 +34,7 @@ let utils = {
                 creepList.push(Game.creeps[creepname]);
             }
         }
-        return creepList
+        return creepList;
     },
 
     /**
@@ -44,14 +44,15 @@ let utils = {
      * @param spawn     {String}
      */
     controlNewRoom: function (newRoom, spawn) {
-        let sp = Game.spawns[spawn];
-        let aval = sp.room.energyAvailable;
-        let max = sp.room.energyCapacityAvailable;
-        let create = (aval === max);
-        let to = Game.rooms[newRoom];
-        let extras = {'role': 'claimer', 'target': newRoom};
+        let sp      = Game.spawns[spawn];
+        let aval    = sp.room.energyAvailable;
+        let max     = sp.room.energyCapacityAvailable;
+        let create  = (aval === max);
+        let to      = Game.rooms[newRoom];
+        let extras  = {'role': 'claimer', 'target': newRoom};
 
         if (to.find(FIND_MY_CREEPS).length < 3 && create) {
+            Game.notify('Spawning helper to ' + newRoom);
             sp.createCreep(params.getBody('cool'), undefined, extras);
         }
     }

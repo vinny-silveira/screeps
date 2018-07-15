@@ -13,9 +13,9 @@ let roleBuilder = {
         let sources         = creep.room.find(FIND_SOURCES);
         let parking         = creep.room.find(FIND_FLAGS);
 
-        let harvest         = (creep.memory.building && creep.carry.energy === 0);
-        let build           = (!creep.memory.building && creep.carry.energy === creep.carryCapacity);
-        let park            = (creep.carry.energy <= creep.carryCapacity && constructions === null);
+        let harvest = (creep.memory.building && creep.carry.energy === 0);
+        let build   = (!creep.memory.building && creep.carry.energy === creep.carryCapacity);
+        let park    = (creep.carry.energy <= creep.carryCapacity && constructions === null);
 
         // Prevent access to a source that not exist...
         if (sources.length === 1) {

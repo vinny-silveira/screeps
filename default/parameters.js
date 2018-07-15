@@ -7,6 +7,12 @@ let parameters = {
 
     /**
      * Here, contains the body preset for createCreep
+     *
+     * COSTS
+     *
+     *  - normal:   200
+     *  - claimer:  800
+     *  - cool:     700
      */
     bodys: {
         'normal': [WORK, CARRY, MOVE],
@@ -18,7 +24,7 @@ let parameters = {
      * Min roles per room
      */
     minRoles: {
-        'E53N57': {
+        'E52N57': {
             'harvester': 1,
             'repairer': 1,
             'builder': 2,
@@ -26,20 +32,28 @@ let parameters = {
             'upgrader': 1,
             'defaultBody': 'normal'
         },
+        'E53N57': {
+            'harvester': 1,
+            'repairer': 1,
+            'builder': 2,
+            'wallRepairer': 0,
+            'upgrader': 1,
+            'defaultBody': 'cool'
+        },
         'E54N57': {
             'harvester': 2,
-            'repairer': 1,
-            'builder': 1,
-            'wallRepairer': 1,
-            'upgrader': 5,
+            'repairer': 2,
+            'builder': 2,
+            'wallRepairer': 0,
+            'upgrader': 2,
             'defaultBody': 'cool'
         },
         'E55N57': {
             'harvester': 2,
-            'repairer': 1,
+            'repairer': 2,
             'builder': 1,
-            'wallRepairer': 1,
-            'upgrader': 5,
+            'wallRepairer': 0,
+            'upgrader': 2,
             'defaultBody': 'cool'
         },
     },
@@ -48,6 +62,7 @@ let parameters = {
      * Relation of spawn <-> room
      */
     spawns: {
+        'E52N57': 'SSpawn',
         'E53N57': 'Spawn',
         'E54N57': 'Home',
         'E55N57': 'House',
@@ -73,7 +88,7 @@ let parameters = {
     /**
      * Sign for controller
      */
-    signText: "Keyboard not found! Press F1.",
+    signText: "Awesome description here",
 
     /**
      * Return spawn from specified room
